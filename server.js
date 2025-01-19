@@ -1,7 +1,6 @@
 // Import required modules
 const express = require('express');
 const cors = require("cors");
-const mongoose = require("mongoose");
 const { DB_URL } = require("./config/db.config");
 require("dotenv").config();
 // Create an Express application
@@ -13,22 +12,16 @@ const userRoutes = require('./routes/user.routes');
 app.use(express.json());
 
 // Routes
-app.use('/artists', artistRoutes);
-app.use('/genres', genreRoutes);
-app.use('/movies', movieRoutes);
-app.use('/users', userRoutes);
-
+// app.use('/artists', artistRoutes);
+// app.use('/genres', genreRoutes);
+// app.use('/movies', movieRoutes);
+// app.use('/users', userRoutes);
+app.use("/api/movies", movieRoutes);
+app.use("/api/genres", genreRoutes);
+app.use("/api/artists", artistRoutes);
+app.use("/api", userRoutes);
+// Middleware setup
 app.use(cors({ origin: process.env.CORS_ORIGIN || "http://localhost:3000" }));
-
-mongoose
-  .connect(DB_URL)
-  .then(() => {
-    console.log("Connected to the database!");
-  })
-  .catch((err) => {
-    console.error("Cannot connect to the database!", err);
-    process.exit(1);
-  });
 
 app.get("/", (req, res) => {
     res.json({
