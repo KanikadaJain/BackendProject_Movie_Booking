@@ -3,6 +3,7 @@ const Movies = require('../models/movie.model');
 // Get all movies
 exports.findAllMovies = async (req, res) => {
   try {
+    let condition = {};
     if (req.query.status) {
       if (req.query.status === "RELEASED") {
         condition.released = true;
@@ -10,8 +11,8 @@ exports.findAllMovies = async (req, res) => {
       else if (req.query.status === "PUBLISHED") {
         condition.published = true;
       }
-     }
-     if (req.query.title && req.query.status === "RELEASED") {
+    }
+    if (req.query.title && req.query.status === "RELEASED") {
       condition.title = req.query.title;
     }
     const movies = await Movies.find(condition);
