@@ -5,7 +5,7 @@ const genreSchema = new mongoose.Schema({
   genre: { type: String, required: true }
 },
 {
-  timestamps: true, // Automatically add createdAt and updatedAt fields
+  timestamps: true, 
 });
 
 module.exports = mongoose.model('Genre', genreSchema);
