@@ -5,6 +5,9 @@ const { DB_URL } = require("./config/db.config");
 require("dotenv").config();
 // Create an Express application
 const app = express();
+app.use(cors({ origin: process.env.CORS_ORIGIN || "http://localhost:3000" }));
+// const corsOptions = { origin: 'http://localhost:3000' }; 
+// app.use(cors(corsOptions));
 const artistRoutes = require('./routes/artist.routes');
 const genreRoutes = require('./routes/genre.routes');
 const movieRoutes = require('./routes/movie.routes');
@@ -21,7 +24,8 @@ app.use("/api/genres", genreRoutes);
 app.use("/api/artists", artistRoutes);
 app.use("/api", userRoutes);
 // Middleware setup
-app.use(cors({ origin: process.env.CORS_ORIGIN || "http://localhost:3000" }));
+// app.use(cors({ origin:["http://localhost:3000", "http://localhost:8085"] }));
+
 
 app.get("/", (req, res) => {
     res.json({
