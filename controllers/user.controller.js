@@ -6,28 +6,51 @@ const crypto = require("crypto");
 
 // Login function
 exports.login = async (req, res) => {
-  const { username, password } = req.body;
   try {
-    // Find the user by username
-    const user = await User.findOne({ username });
-    if (user) {
-      // Compare the entered password with the hashed password
-      const match = await bcrypt.compare(password, user.password);
-      if (match) {
-        // Update the user status to logged in and generate an access token
-        user.isLoggedIn = true;
-        user.accesstoken = uuidv4(); // Generate a new access token
-        await user.save();
-
-        res.status(200).json({ message: 'Login successful!', accessToken: user.accesstoken });
-      } else {
-        res.status(400).send('Incorrect password.');
-      }
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Basic ")) {
+      return res
+        .status(401)
+        .send({ message: "Authorization header is missing or invalid." });
+    }
+    const authToken = authHeader.split(" ")[1];
+    const unamePwd = atob(authToken);
+    const [uname, pwd] = unamePwd.split(":");
+    if (!uname || !pwd) {
+      return res
+        .status(400)
+        .send({ message: "Please provide username and password to continue." });
+    }
+    const user = await User.findOne({ username: uname });
+    if (!user) {
+      return res.status(404).send({ message: "User Not Found." });
+    }
+    if (pwd === user.password) {
+      const tokgen = new TokenGenerator();
+      const accessTokenGenerated = tokgen.generate();
+      const uuidGenerated = crypto
+        .createHash("sha256")
+        .update(username + Date.now().toString())
+        .digest("hex");
+      user.isLoggedIn = true;
+      user.uuid = uuidGenerated;
+      user.accesstoken = accessTokenGenerated;
+      const updatedUser = await User.findOneAndUpdate(
+        { username: uname },
+        user,
+        { new: true, useFindAndModify: false }
+      );
+      res.header("access-token", updatedUser.accesstoken);
+      res.send({
+        id: updatedUser.uuid,
+        "access-token": updatedUser.accesstoken,
+      });
     } else {
-      res.status(404).send('Username not found.');
+      res.status(401).send({ message: "Invalid password." });
     }
   } catch (error) {
-    res.status(500).send('An error occurred during login.');
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 
