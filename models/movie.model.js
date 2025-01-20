@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+// Movie schema
 const movieSchema = new mongoose.Schema({
   movieId: { type: Number, required: true, unique: true },
     title: { type: String, required: true }, 
@@ -23,7 +24,8 @@ const movieSchema = new mongoose.Schema({
     genres: [], 
     shows: [], 
   },
+  // Created at and updated at fields
   { timestamps: true }
 );
-
+// Export the Movie model
 module.exports = mongoose.model('Movie', movieSchema);

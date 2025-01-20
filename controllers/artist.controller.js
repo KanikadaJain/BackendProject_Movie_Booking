@@ -1,6 +1,6 @@
 const Artist = require('../models/artist.model');
 
-// Get all artists
+// Get all artists and export the function
 exports.getAllArtists = async (req, res) => {
     try {
         const artists = await Artist.find();

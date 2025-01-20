@@ -1,6 +1,6 @@
 const Movies = require('../models/movie.model');
 
-// Get all movies
+// Get all movies and export with filtering - published and released
 exports.findAllMovies = async (req, res) => {
   try {
     let condition = {};
@@ -22,7 +22,7 @@ exports.findAllMovies = async (req, res) => {
   }
 };
 
-// Get movie by ID
+// Get single movie by ID
 exports.findOne = async (req, res) => {
   try {
     const id = parseInt(req.params.id);
@@ -36,7 +36,7 @@ exports.findOne = async (req, res) => {
   }
 };
 
-
+// Get shows for a specific movie by ID
 exports.findShows = async (req, res) => {
   try {
     const id = parseInt(req.params.id);

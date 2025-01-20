@@ -1,6 +1,6 @@
 const Genre = require('../models/genre.model');
 
-// Get all genres
+// Get all genres and export the function
 exports.findAllGenres = async (req, res) => {
     try {
         const genres = await Genre.find();

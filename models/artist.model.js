@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+// Artist schema
 const artistSchema = new mongoose.Schema({
   artistid: { type: Number, required: true },
   first_name: { type: String, required: true },
@@ -22,9 +23,11 @@ const artistSchema = new mongoose.Schema({
     default: [], 
   },
 },
+// Created at and updated at fields
 {
   timestamps: true, 
 }
 );
 
+// Export the Artist model
 module.exports = mongoose.model('Artist', artistSchema);
