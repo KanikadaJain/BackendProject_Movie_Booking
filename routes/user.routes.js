@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/user.controller');
 
+// Signup route for a new user
 router.post("/auth/signup", async (req, res) => {
     try {
       await userController.signUp(req, res);
@@ -10,6 +11,7 @@ router.post("/auth/signup", async (req, res) => {
     }
 });
 
+// Login route
 router.post("/auth/login", async (req, res) => {
     try {
       await userController.login(req, res);
@@ -18,6 +20,7 @@ router.post("/auth/login", async (req, res) => {
     }
 });
 
+// Logout route
 router.post("/auth/logout", async (req, res) => {
     try {
       await userController.logout(req, res);
@@ -26,6 +29,7 @@ router.post("/auth/logout", async (req, res) => {
     }
 });
 
+// Coupon route
 router.get("/auth/coupons", async (req, res) => {
     try {
       await userController.getCouponCode(req, res);
@@ -36,6 +40,7 @@ router.get("/auth/coupons", async (req, res) => {
     }
 });
 
+//  Book show for user
 router.post("/auth/bookings", async (req, res) => {
     try {
       await userController.bookShow(req, res);

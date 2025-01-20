@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
-
+// userSchema with the required fields for a user, default values for some fields. 
+// Model User using the userSchema. 
+// This model will be used to interact with the MongoDB database.
 const userSchema = new mongoose.Schema({
   userId: { type: Number }, 
     email: { type: String, required: true, unique: true }, 

@@ -5,9 +5,11 @@ const { DB_URL } = require("./config/db.config");
 require("dotenv").config();
 // Create an Express application
 const app = express();
+
+// Middleware setup
 app.use(cors({ origin: process.env.CORS_ORIGIN || "http://localhost:3000" }));
-// const corsOptions = { origin: 'http://localhost:3000' }; 
-// app.use(cors(corsOptions));
+
+// Load routes
 const artistRoutes = require('./routes/artist.routes');
 const genreRoutes = require('./routes/genre.routes');
 const movieRoutes = require('./routes/movie.routes');
@@ -15,18 +17,17 @@ const userRoutes = require('./routes/user.routes');
 app.use(express.json());
 
 // Routes
-// app.use('/artists', artistRoutes);
-// app.use('/genres', genreRoutes);
-// app.use('/movies', movieRoutes);
-// app.use('/users', userRoutes);
 app.use("/api/movies", movieRoutes);
 app.use("/api/genres", genreRoutes);
 app.use("/api/artists", artistRoutes);
 app.use("/api", userRoutes);
-// Middleware setup
-// app.use(cors({ origin:["http://localhost:3000", "http://localhost:8085"] }));
 
+// app.use('/artists', artistRoutes);
+// app.use('/genres', genreRoutes);
+// app.use('/movies', movieRoutes);
+// app.use('/users', userRoutes);
 
+// Default route
 app.get("/", (req, res) => {
     res.json({
       message: "Welcome to Upgrad Movie booking application development.",
